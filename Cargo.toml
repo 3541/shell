@@ -1,0 +1,10 @@
+[package]
+name = "shell"
+version = "0.1.0"
+authors = ["Alex O'Brien <alexander.obrien@universityprep.org>"]
+
+[dependencies]
+nix = "0.7.0"
+
+[profile.release]
+lto = true

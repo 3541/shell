@@ -1,0 +1,35 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb-mi",
+            "request": "attach",
+            "name": "Attach to PID (LLDB)",
+            "target": "3079",
+            "executable": "./target/debug/shell",
+            "cwd": "${workspaceRoot}"
+        },
+        {
+            "type": "gdb",
+            "request": "attach",
+            "name": "Attach to PID (GDB)",
+            "target": "3079",
+            "executable": "./target/debug/shell",
+            "cwd": "${workspaceRoot}"
+        },
+        {
+            "type": "gdb",
+            "request": "launch",
+            "name": "gdb",
+            "target": "./target/debug/shell",
+            "cwd": "${workspaceRoot}"
+        },
+        {
+            "name": "lldb",
+            "type": "lldb-mi",
+            "request": "launch",
+            "target": "./target/debug/shell",
+            "cwd": "${workspaceRoot}"
+        }
+    ]
+}
