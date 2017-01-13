@@ -22,7 +22,8 @@
             "request": "launch",
             "name": "gdb",
             "target": "./target/debug/shell",
-            "cwd": "${workspaceRoot}"
+            "cwd": "${workspaceRoot}",
+            "terminal": ""
         },
         {
             "name": "lldb",
