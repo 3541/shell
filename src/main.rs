@@ -163,50 +163,10 @@ fn read_line() -> Result<String, &'static str> {
     Ok(ret)
 }
 
-/*fn split_line<'a>(line: &'a str) -> Vec<&'a str> {
+fn split_line<'a>(line: &'a str) -> Vec<&'a str> {
     line.split_whitespace().collect()
-}*/
-
-fn split_line(line: &str) -> Vec<String> {
-    let mut ret = Vec::new();
-    let mut escaping = false;
-    let mut quote_stack = Vec::with_capacity(1);
-    let mut c_arg = String::new();
-    for byte in line.bytes() {
-        match byte {
-            b'"' | b'\'' | b'`' => {
-                if quote_stack.is_empty() {
-                    quote_stack.push(byte as char);
-                } else if quote_stack[quote_stack.len() - 1] == byte as char {
-                    quote_stack.pop();
-                } else {
-                    c_arg.push(byte as char);
-                }
-            },
-            b'\\' => {
-                if escaping {
-                    c_arg.push('\\');
-                } else {
-                    escaping = true;
-                    continue;
-                }
-            },
-            b' ' | b'\t' => {
-                if escaping || !quote_stack.is_empty() {
-                    c_arg.push(byte as char)
-                } else {
-                    ret.push(c_arg);
-                    c_arg.clear();
-                }
-            },
-            _ => {
-                c_arg.push(byte as char);
-            }
-        }
-        escaping = false;
-    }
-    ret
 }
+
 
 fn launch_subprocess(name: &str, args: Vec<&str>) {
     let status = Command::new(&name).args(&args).status();
@@ -222,12 +182,11 @@ fn launch_subprocess(name: &str, args: Vec<&str>) {
     }
 }
 
-fn exec_line(args: Vec<String>, term_save: &nix::sys::termios::Termios) {
+fn exec_line(args: Vec<&str>, term_save: &nix::sys::termios::Termios) {
     if args.len() < 1 {
         return;
     }
 
-    let args: Vec<&str> = args.into_iter().map(|a: String| { a.as_str() }).collect();
     for bn in builtin::BUILTINS.into_iter() {
         if (*bn).0 == args[0] {
             (*bn).2((&args[1..]).to_vec(), term_save);
